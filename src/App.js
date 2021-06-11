@@ -2,26 +2,37 @@ import React, { useState, useEffect } from 'react';
 import Player from './components/Player';
 import Dice from './components/Dice';
 import Button from './components/Button';
+import usePlayer from './hooks/use-player';
 import './App.css';
 
 function App() {
+  const {
+    activePlayer: activePlayer1,
+    setActivePlayer: setActivePlayer1,
+    currentScore: currentScore1,
+    setCurrentScore: setCurrentScore1,
+    score: score1,
+    setScore: setScore1,
+    winnerPlayer: winnerPlayer1,
+    setWinnerPlayer: setWinnerPlayer1,
+  } = usePlayer();
+
+  const {
+    activePlayer: activePlayer2,
+    setActivePlayer: setActivePlayer2,
+    currentScore: currentScore2,
+    setCurrentScore: setCurrentScore2,
+    score: score2,
+    setScore: setScore2,
+    winnerPlayer: winnerPlayer2,
+    setWinnerPlayer: setWinnerPlayer2,
+  } = usePlayer(false);
+
   const [showDice, setShowDice] = useState(false);
   const [currentRoll, setCurrentRoll] = useState(0);
 
-  const [activePlayer1, setActivePlayer1] = useState(true);
-  const [activePlayer2, setActivePlayer2] = useState(false);
-
-  const [currentScore1, setCurrentScore1] = useState(0);
-  const [currentScore2, setCurrentScore2] = useState(0);
-
-  const [score1, setScore1] = useState(0);
-  const [score2, setScore2] = useState(0);
-
-  const [winnerPlayer1, setWinnerPlayer1] = useState(false);
-  const [winnerPlayer2, setWinnerPlayer2] = useState(false);
-
   const rollDice = () => {
-    if (score1 >= 100 || score2 >= 100) return;
+    if (score1 >= 15 || score2 >= 15) return;
     setShowDice(true);
 
     if (activePlayer1) {
@@ -52,17 +63,8 @@ function App() {
     }
   }, [currentRoll]);
 
-  useEffect(() => {
-    if (score1 >= 100 || score2 >= 100)
-      if (score1 >= 100) {
-        setWinnerPlayer1(true);
-      } else {
-        setWinnerPlayer2(true);
-      }
-  }, [score1, score2]);
-
   const hold = () => {
-    if (score1 >= 100 || score2 >= 100) return;
+    if (score1 >= 15 || score2 >= 15) return;
 
     if (activePlayer1) {
       setScore1((prevState) => prevState + currentScore1);
@@ -105,7 +107,7 @@ function App() {
         currentScore={currentScore2}
         winnerPlayer={winnerPlayer2}
       />
-      {showDice ? <Dice currentRoll={currentRoll} /> : null}
+      {showDice && <Dice currentRoll={currentRoll} />}
       <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
       <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
       <Button text="📥 Hold" className="btn--hold" onClick={hold} />
