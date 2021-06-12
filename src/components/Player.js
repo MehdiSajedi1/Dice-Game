@@ -11,7 +11,7 @@ const Player = ({ text, activePlayer, score, currentScore, winnerPlayer }) => {
       <p className="score">{score}</p>
       <div className="current">
         <p className="current-label">Current</p>
-        <p className="current-score">{currentScore}</p>
+        <p className="current-score">{activePlayer ? currentScore : 0}</p>
       </div>
     </section>
   );

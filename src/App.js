@@ -9,8 +9,6 @@ function App() {
   const {
     activePlayer: activePlayer1,
     setActivePlayer: setActivePlayer1,
-    currentScore: currentScore1,
-    setCurrentScore: setCurrentScore1,
     score: score1,
     setScore: setScore1,
     winnerPlayer: winnerPlayer1,
@@ -20,8 +18,6 @@ function App() {
   const {
     activePlayer: activePlayer2,
     setActivePlayer: setActivePlayer2,
-    currentScore: currentScore2,
-    setCurrentScore: setCurrentScore2,
     score: score2,
     setScore: setScore2,
     winnerPlayer: winnerPlayer2,
@@ -31,26 +27,17 @@ function App() {
   const [showDice, setShowDice] = useState(false);
   const [currentRoll, setCurrentRoll] = useState(0);
 
+  const [currentScore, setCurrentScore] = useState(0);
+
   const rollDice = () => {
     if (score1 >= 15 || score2 >= 15) return;
     setShowDice(true);
 
-    if (activePlayer1) {
-      const roll = Math.floor(Math.random() * 6 + 1);
-      setCurrentRoll(roll);
+    const roll = Math.floor(Math.random() * 6 + 1);
+    setCurrentRoll(roll);
 
-      if (roll !== 1) {
-        setCurrentScore1((prevState) => prevState + roll);
-      }
-    }
-
-    if (activePlayer2) {
-      const roll = Math.floor(Math.random() * 6 + 1);
-      setCurrentRoll(roll);
-
-      if (roll !== 1) {
-        setCurrentScore2((prevState) => prevState + roll);
-      }
+    if (roll !== 1) {
+      setCurrentScore((prevState) => prevState + roll);
     }
   };
 
@@ -58,23 +45,22 @@ function App() {
     if (currentRoll === 1) {
       setActivePlayer1((prevState) => !prevState);
       setActivePlayer2((prevState) => !prevState);
-      setCurrentScore1(0);
-      setCurrentScore2(0);
+      setCurrentScore(0);
     }
-  }, [currentRoll]);
+  }, [currentRoll, setActivePlayer1, setActivePlayer2]);
 
   const hold = () => {
     if (score1 >= 15 || score2 >= 15) return;
 
     if (activePlayer1) {
-      setScore1((prevState) => prevState + currentScore1);
-      setCurrentScore1(0);
+      setScore1((prevState) => prevState + currentScore);
     }
 
     if (activePlayer2) {
-      setScore2((prevState) => prevState + currentScore2);
-      setCurrentScore2(0);
+      setScore2((prevState) => prevState + currentScore);
     }
+    setCurrentScore(0);
+
     setActivePlayer1((prevState) => !prevState);
     setActivePlayer2((prevState) => !prevState);
   };
@@ -82,12 +68,12 @@ function App() {
   const newGame = () => {
     setScore1(0);
     setScore2(0);
-    setCurrentScore1(0);
-    setCurrentScore2(0);
     setWinnerPlayer1(false);
     setWinnerPlayer2(false);
     setActivePlayer1(true);
     setActivePlayer2(false);
+
+    setCurrentScore(0);
     setShowDice(false);
   };
 
@@ -97,14 +83,14 @@ function App() {
         text="Player 1"
         activePlayer={activePlayer1}
         score={score1}
-        currentScore={currentScore1}
+        currentScore={currentScore}
         winnerPlayer={winnerPlayer1}
       />
       <Player
         text="Player 2"
         activePlayer={activePlayer2}
         score={score2}
-        currentScore={currentScore2}
+        currentScore={currentScore}
         winnerPlayer={winnerPlayer2}
       />
       {showDice && <Dice currentRoll={currentRoll} />}
