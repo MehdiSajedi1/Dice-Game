@@ -2,98 +2,81 @@ import React, { useState, useEffect } from 'react';
 import Player from './components/Player';
 import Dice from './components/Dice';
 import Button from './components/Button';
-import usePlayer from './hooks/use-player';
 import './App.css';
 
+const gamePoint = 100;
+
 function App() {
-  const {
-    activePlayer: activePlayer1,
-    setActivePlayer: setActivePlayer1,
-    score: score1,
-    setScore: setScore1,
-    winnerPlayer: winnerPlayer1,
-    setWinnerPlayer: setWinnerPlayer1,
-  } = usePlayer();
-
-  const {
-    activePlayer: activePlayer2,
-    setActivePlayer: setActivePlayer2,
-    score: score2,
-    setScore: setScore2,
-    winnerPlayer: winnerPlayer2,
-    setWinnerPlayer: setWinnerPlayer2,
-  } = usePlayer(false);
-
-  const [showDice, setShowDice] = useState(false);
+  const [activePlayer, setActivePlayer] = useState(true);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [score1, setScore1] = useState(0);
+  const [score2, setScore2] = useState(0);
   const [currentRoll, setCurrentRoll] = useState(0);
 
-  const [currentScore, setCurrentScore] = useState(0);
+  useEffect(() => {
+    if (currentRoll === 1) {
+      setActivePlayer((prevActive) => !prevActive);
+      setCurrentScore(0);
+    }
+  }, [currentRoll, setActivePlayer]);
 
   const rollDice = () => {
-    if (score1 >= 15 || score2 >= 15) return;
-    setShowDice(true);
+    if (score1 >= gamePoint || score2 >= gamePoint) return;
 
     const roll = Math.floor(Math.random() * 6 + 1);
     setCurrentRoll(roll);
 
     if (roll !== 1) {
-      setCurrentScore((prevState) => prevState + roll);
+      setCurrentScore((prevRoll) => prevRoll + roll);
     }
   };
 
-  useEffect(() => {
-    if (currentRoll === 1) {
-      setActivePlayer1((prevState) => !prevState);
-      setActivePlayer2((prevState) => !prevState);
-      setCurrentScore(0);
-    }
-  }, [currentRoll, setActivePlayer1, setActivePlayer2]);
-
   const hold = () => {
-    if (score1 >= 15 || score2 >= 15) return;
+    if (score1 >= gamePoint || score2 >= gamePoint) return;
 
-    if (activePlayer1) {
-      setScore1((prevState) => prevState + currentScore);
+    switch (activePlayer) {
+      case true:
+        setScore1((prevScore) => prevScore + currentScore);
+        break;
+
+      case false:
+        setScore2((prevScore) => prevScore + currentScore);
+        break;
+
+      default:
+        break;
     }
 
-    if (activePlayer2) {
-      setScore2((prevState) => prevState + currentScore);
-    }
     setCurrentScore(0);
 
-    setActivePlayer1((prevState) => !prevState);
-    setActivePlayer2((prevState) => !prevState);
+    setActivePlayer((prevActive) => !prevActive);
   };
 
   const newGame = () => {
     setScore1(0);
     setScore2(0);
-    setWinnerPlayer1(false);
-    setWinnerPlayer2(false);
-    setActivePlayer1(true);
-    setActivePlayer2(false);
-
+    setActivePlayer(true);
     setCurrentScore(0);
-    setShowDice(false);
+    setCurrentRoll(0);
   };
 
   return (
     <main className="App">
       <Player
-        text="Player 1"
-        activePlayer={activePlayer1}
-        score={score1}
+        playerNum="1"
+        activePlayer={activePlayer}
         currentScore={currentScore}
-        winnerPlayer={winnerPlayer1}
+        score={score1}
+        gamePoint={gamePoint}
       />
       <Player
-        text="Player 2"
-        activePlayer={activePlayer2}
-        score={score2}
+        playerNum="2"
+        activePlayer={!activePlayer}
         currentScore={currentScore}
-        winnerPlayer={winnerPlayer2}
+        score={score2}
+        gamePoint={gamePoint}
       />
-      {showDice && <Dice currentRoll={currentRoll} />}
+      {currentRoll !== 0 && <Dice currentRoll={currentRoll} />}
       <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
       <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
       <Button text="📥 Hold" className="btn--hold" onClick={hold} />

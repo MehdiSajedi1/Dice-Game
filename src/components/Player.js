@@ -1,13 +1,19 @@
 import React from 'react';
 
-const Player = ({ text, activePlayer, score, currentScore, winnerPlayer }) => {
+const Player = ({
+  playerNum,
+  activePlayer,
+  score,
+  currentScore,
+  gamePoint,
+}) => {
   return (
     <section
       className={`player ${activePlayer ? 'player--active' : ''} ${
-        winnerPlayer ? 'player--winner' : ''
+        score >= gamePoint ? 'player--winner' : ''
       } `}
     >
-      <h2 className="name">{text}</h2>
+      <h2 className="name">Player {playerNum}</h2>
       <p className="score">{score}</p>
       <div className="current">
         <p className="current-label">Current</p>
