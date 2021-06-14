@@ -2,10 +2,10 @@ import React from 'react';
 
 const Player = ({
   playerNum,
-  activePlayer,
   score,
-  currentScore,
   gamePoint,
+  currentScore,
+  activePlayer,
 }) => {
   return (
     <section

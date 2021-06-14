@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Player from './components/Player';
 import Dice from './components/Dice';
 import Button from './components/Button';
@@ -6,7 +6,7 @@ import './App.css';
 
 const gamePoint = 30;
 
-const roller = () => Math.floor(Math.random() * 6 + 1);
+const diceRoller = () => Math.floor(Math.random() * 6 + 1);
 
 const initState = {
   activePlayer: true,
@@ -15,119 +15,83 @@ const initState = {
   score2: 0,
   currentRoll: 0,
 };
+
 const reducer = (state, action) => {
-  if (action.type === 'ROLL-NOT-1') {
+  if (action.type === 'ROLL') {
+    const roll = diceRoller();
     return {
       ...state,
-      currentRoll: roller(),
-      currentScore: state.currentScore + state.currentRoll,
+      currentRoll: roll,
+      currentScore: state.currentScore + roll,
     };
   }
   if (action.type === 'ROLL-1') {
     return { ...state, activePlayer: !state.activePlayer, currentScore: 0 };
   }
   if (action.type === 'HOLD') {
-    return { ...state, activePlayer: !state.activePlayer, currentScore: 0 };
+    if (state.activePlayer) {
+      return {
+        ...state,
+        activePlayer: !state.activePlayer,
+        currentScore: 0,
+        score1: state.score1 + state.currentScore,
+      };
+    }
+    if (!state.activePlayer) {
+      return {
+        ...state,
+        activePlayer: !state.activePlayer,
+        currentScore: 0,
+        score2: state.score2 + state.currentScore,
+      };
+    }
   }
+
   if (action.type === 'RESET') {
     return initState;
   }
 };
 
 function App() {
-  const [activePlayer, setActivePlayer] = useState(true);
-  const [currentScore, setCurrentScore] = useState(0);
-  const [score1, setScore1] = useState(0);
-  const [score2, setScore2] = useState(0);
-  const [currentRoll, setCurrentRoll] = useState(0);
-
   const [gameState, dispatch] = useReducer(reducer, initState);
 
   useEffect(() => {
-    if (currentRoll === 1) {
-      setActivePlayer((prevActive) => !prevActive);
-      setCurrentScore(0);
+    if (gameState.currentRoll === 1) {
+      dispatch({ type: 'ROLL-1' });
     }
-  }, [currentRoll, setActivePlayer]);
+  }, [gameState.currentRoll]);
 
-  const rollDice = useCallback(() => {
-    console.log('tryna run rollDice');
-    if (score1 >= gamePoint || score2 >= gamePoint) return;
-
-    const roll = Math.floor(Math.random() * 6 + 1);
-    setCurrentRoll(roll);
-
-    if (roll !== 1) {
-      setCurrentScore((prevRoll) => prevRoll + roll);
-    }
-  }, [score1, score2]);
-
-  const hold = useCallback(() => {
-    console.log('tryna run hold');
-    if (score1 >= gamePoint || score2 >= gamePoint) return;
-
-    switch (activePlayer) {
-      case true:
-        setScore1((prevScore) => prevScore + currentScore);
-        break;
-
-      case false:
-        setScore2((prevScore) => prevScore + currentScore);
-        break;
-
-      default:
-        break;
-    }
-    setCurrentScore(0);
-    setActivePlayer((prevActive) => !prevActive);
-  }, [activePlayer, currentScore, score1, score2]);
-
-  const newGame = () => {
-    setScore1(0);
-    setScore2(0);
-    setActivePlayer(true);
-    setCurrentScore(0);
-    setCurrentRoll(0);
+  const rollDice = () => {
+    if (gameState.score1 >= gamePoint || gameState.score2 >= gamePoint) return;
+    return dispatch({ type: 'ROLL' });
   };
 
-  // * AUTOPLAY - Comment out for user play
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     rollDice();
-  //   }, 500);
+  const hold = () => {
+    if (gameState.score1 >= gamePoint || gameState.score2 >= gamePoint) return;
+    dispatch({ type: 'HOLD' });
+  };
 
-  //   if (activePlayer) {
-  //     if (score1 + currentScore >= gamePoint) hold();
-  //   }
-
-  //   if (!activePlayer) {
-  //     if (score2 + currentScore >= gamePoint) hold();
-  //   }
-
-  //   if (currentScore >= 20) {
-  //     hold();
-  //   }
-
-  //   return () => clearInterval(interval);
-  // }, [score1, score2, currentScore, activePlayer, hold, rollDice]);
+  const newGame = () => dispatch({ type: 'RESET' });
 
   return (
     <main className="App">
       <Player
         playerNum="1"
-        activePlayer={activePlayer}
-        currentScore={currentScore}
-        score={score1}
+        score={gameState.score1}
+        activePlayer={gameState.activePlayer}
+        currentScore={gameState.currentScore}
         gamePoint={gamePoint}
       />
       <Player
         playerNum="2"
-        activePlayer={!activePlayer}
-        currentScore={currentScore}
-        score={score2}
+        score={gameState.score2}
+        activePlayer={!gameState.activePlayer}
+        currentScore={gameState.currentScore}
         gamePoint={gamePoint}
       />
-      {currentRoll !== 0 && <Dice currentRoll={currentRoll} />}
+      {gameState.currentRoll !== 0 && (
+        <Dice currentRoll={gameState.currentRoll} />
+      )}
       <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
       <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
       <Button text="📥 Hold" className="btn--hold" onClick={hold} />
