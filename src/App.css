@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
+:root {
+  --clr-primary: #c7365f;
+  --clr-secondary: #f5476a;
+  --clr-background-1: #753682;
+  --clr-background-2: #bf2e34;
+
+  --clr-primary: #f79489;
+  --clr-secondary: #f8afa6;
+  --clr-background-1: #fadcd9;
+  --clr-background-2: #f9f1f0;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +28,11 @@ body {
   font-weight: 400;
   height: 100vh;
   color: #333;
-  background-image: linear-gradient(to top left, #753682 0%, #bf2e34 100%);
+  background-image: linear-gradient(
+    to top left,
+    var(--clr-background-1) 0%,
+    var(--clr-background-2) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +55,6 @@ main {
 
 main.faded {
   opacity: 0.15;
-  /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
 .player {
@@ -49,6 +64,7 @@ main.faded {
   flex-direction: column;
   align-items: center;
   transition: all 0.75s;
+  background-color: rgba(200, 200, 200, 0.4);
 }
 
 /* ELEMENTS */
@@ -65,7 +81,7 @@ main.faded {
 .score {
   font-size: 8rem;
   font-weight: 300;
-  color: #c7365f;
+  color: var(--clr-primary);
   margin-bottom: auto;
 }
 
@@ -84,7 +100,7 @@ main.faded {
 }
 
 .current {
-  background-color: #c7365f;
+  background-color: var(--clr-primary);
   opacity: 0.8;
   border-radius: 9px;
   color: #fff;
@@ -98,7 +114,7 @@ main.faded {
   text-transform: uppercase;
   margin-bottom: 1rem;
   font-size: 1.7rem;
-  color: #ddd;
+  /* color: #ddd; */
 }
 
 .current-score {
@@ -169,7 +185,7 @@ main.faded {
 
 .player--winner .name {
   font-weight: 700;
-  color: #c7365f;
+  color: var(--clr-primary);
 }
 
 .hidden {
@@ -184,7 +200,7 @@ main.faded {
   cursor: pointer;
   border-radius: 50%;
   /* background-image: linear-gradient(to right, #753682 0%, #bf2e34 100%); */
-  background-color: #f5476a;
+  background-color: var(--clr-secondary);
 }
 
 .rules {
@@ -209,10 +225,10 @@ main.faded {
 
   width: 720px;
   height: 496px;
-  background-color: #f5476a;
+  background-color: var(--clr-secondary);
 }
 
-.rules-modal.deez {
+.rules-modal.open {
   visibility: visible;
   opacity: 1;
 }

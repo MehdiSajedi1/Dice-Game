@@ -6,7 +6,7 @@ import Rules from './components/Rules';
 import RulesModal from './components/RulesModal';
 import './App.css';
 
-const gamePoint = 100;
+const gamePoint = 25;
 
 const diceRoller = () => Math.floor(Math.random() * 6 + 1);
 
@@ -27,9 +27,11 @@ const reducer = (state, action) => {
       currentScore: state.currentScore + roll,
     };
   }
+
   if (action.type === 'ROLL-1') {
     return { ...state, activePlayer: !state.activePlayer, currentScore: 0 };
   }
+
   if (action.type === 'HOLD') {
     if (state.activePlayer) {
       return {
@@ -101,7 +103,6 @@ function App() {
         <Button text="📥 Hold" className="btn--hold" onClick={hold} />
       </main>
       <Rules showModal={showModal} setShowModal={setShowModal} />
-      {/* {showModal && <RulesModal />} */}
       <RulesModal showModal={showModal} />
     </>
   );
