@@ -34,6 +34,12 @@ main {
   border-radius: 9px;
   overflow: hidden;
   display: flex;
+  transition: all 0.3s ease-out;
+}
+
+main.faded {
+  opacity: 0.15;
+  /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
 .player {
@@ -168,4 +174,60 @@ main {
 
 .hidden {
   display: none;
+}
+
+.rules-container {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  padding: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  /* background-image: linear-gradient(to right, #753682 0%, #bf2e34 100%); */
+  background-color: #f5476a;
+}
+
+.rules {
+  width: 60px;
+  user-select: none;
+}
+
+.rules-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease-out;
+  visibility: hidden;
+  opacity: 0;
+  border-radius: 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 3rem;
+
+  width: 720px;
+  height: 496px;
+  background-color: #f5476a;
+}
+
+.rules-modal.deez {
+  visibility: visible;
+  opacity: 1;
+}
+
+.rules-modal h1 {
+  font-size: 48px;
+  text-transform: uppercase;
+}
+
+.rules-modal ul {
+  list-style: circle;
+  padding: 3rem;
+}
+
+.rules-modal li {
+  font-size: 26px;
+  margin-bottom: 10px;
 }

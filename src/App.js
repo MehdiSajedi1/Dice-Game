@@ -1,10 +1,12 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import Player from './components/Player';
 import Dice from './components/Dice';
 import Button from './components/Button';
+import Rules from './components/Rules';
+import RulesModal from './components/RulesModal';
 import './App.css';
 
-const gamePoint = 30;
+const gamePoint = 100;
 
 const diceRoller = () => Math.floor(Math.random() * 6 + 1);
 
@@ -54,6 +56,7 @@ const reducer = (state, action) => {
 
 function App() {
   const [gameState, dispatch] = useReducer(reducer, initState);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (gameState.currentRoll === 1) {
@@ -74,28 +77,33 @@ function App() {
   const newGame = () => dispatch({ type: 'RESET' });
 
   return (
-    <main className="App">
-      <Player
-        playerNum="1"
-        score={gameState.score1}
-        activePlayer={gameState.activePlayer}
-        currentScore={gameState.currentScore}
-        gamePoint={gamePoint}
-      />
-      <Player
-        playerNum="2"
-        score={gameState.score2}
-        activePlayer={!gameState.activePlayer}
-        currentScore={gameState.currentScore}
-        gamePoint={gamePoint}
-      />
-      {gameState.currentRoll !== 0 && (
-        <Dice currentRoll={gameState.currentRoll} />
-      )}
-      <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
-      <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
-      <Button text="📥 Hold" className="btn--hold" onClick={hold} />
-    </main>
+    <>
+      <main className={showModal ? 'faded' : undefined}>
+        <Player
+          playerNum="1"
+          score={gameState.score1}
+          activePlayer={gameState.activePlayer}
+          currentScore={gameState.currentScore}
+          gamePoint={gamePoint}
+        />
+        <Player
+          playerNum="2"
+          score={gameState.score2}
+          activePlayer={!gameState.activePlayer}
+          currentScore={gameState.currentScore}
+          gamePoint={gamePoint}
+        />
+        {gameState.currentRoll !== 0 && (
+          <Dice currentRoll={gameState.currentRoll} />
+        )}
+        <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
+        <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
+        <Button text="📥 Hold" className="btn--hold" onClick={hold} />
+      </main>
+      <Rules showModal={showModal} setShowModal={setShowModal} />
+      {/* {showModal && <RulesModal />} */}
+      <RulesModal showModal={showModal} />
+    </>
   );
 }
 
