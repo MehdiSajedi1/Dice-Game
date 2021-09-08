@@ -6,7 +6,7 @@ import Rules from './components/Rules';
 import RulesModal from './components/RulesModal';
 import './App.css';
 
-const gamePoint = 25;
+const gamePoint = 100;
 
 const diceRoller = () => Math.floor(Math.random() * 6 + 1);
 
@@ -57,25 +57,29 @@ const reducer = (state, action) => {
 };
 
 function App() {
-  const [gameState, dispatch] = useReducer(reducer, initState);
+  const [game, dispatch] = useReducer(reducer, initState);
   const [showModal, setShowModal] = useState(false);
 
+  // ROLL 1
   useEffect(() => {
-    if (gameState.currentRoll === 1) {
+    if (game.currentRoll === 1) {
       dispatch({ type: 'ROLL-1' });
     }
-  }, [gameState.currentRoll]);
+  }, [game.currentRoll]);
 
+  // ROLL 2-6
   const rollDice = () => {
-    if (gameState.score1 >= gamePoint || gameState.score2 >= gamePoint) return;
+    if (game.score1 >= gamePoint || game.score2 >= gamePoint) return;
     return dispatch({ type: 'ROLL' });
   };
 
+  // HOLD
   const hold = () => {
-    if (gameState.score1 >= gamePoint || gameState.score2 >= gamePoint) return;
+    if (game.score1 >= gamePoint || game.score2 >= gamePoint) return;
     dispatch({ type: 'HOLD' });
   };
 
+  // NEW GAME
   const newGame = () => dispatch({ type: 'RESET' });
 
   return (
@@ -83,21 +87,19 @@ function App() {
       <main className={showModal ? 'faded' : undefined}>
         <Player
           playerNum="1"
-          score={gameState.score1}
-          activePlayer={gameState.activePlayer}
-          currentScore={gameState.currentScore}
+          score={game.score1}
+          activePlayer={game.activePlayer}
+          currentScore={game.currentScore}
           gamePoint={gamePoint}
         />
         <Player
           playerNum="2"
-          score={gameState.score2}
-          activePlayer={!gameState.activePlayer}
-          currentScore={gameState.currentScore}
+          score={game.score2}
+          activePlayer={!game.activePlayer}
+          currentScore={game.currentScore}
           gamePoint={gamePoint}
         />
-        {gameState.currentRoll !== 0 && (
-          <Dice currentRoll={gameState.currentRoll} />
-        )}
+        {game.currentRoll !== 0 && <Dice currentRoll={game.currentRoll} />}
         <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
         <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
         <Button text="📥 Hold" className="btn--hold" onClick={hold} />
