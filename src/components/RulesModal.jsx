@@ -1,6 +1,8 @@
 import React from 'react';
 
-const RulesModal = ({ showModal }) => {
+const RulesModal = React.memo(({ showModal }) => {
+  console.log('RulesModal.jsx');
+
   return (
     <div className={`rules-modal ${showModal && 'open'}`}>
       <h1>Rules</h1>
@@ -15,6 +17,6 @@ const RulesModal = ({ showModal }) => {
       </ul>
     </div>
   );
-};
+});
 
 export default RulesModal;
