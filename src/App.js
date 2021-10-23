@@ -62,8 +62,6 @@ function App() {
   const [game, dispatch] = useReducer(reducer, initState);
   const [showModal, setShowModal] = useState(false);
 
-  console.log('App.js');
-
   // ROLL 1
   useEffect(() => {
     if (game.currentRoll === 1) {

@@ -175,6 +175,7 @@ main.faded {
   transform: translateX(-50%);
   height: 10rem;
   opacity: 0;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .dice.active {
