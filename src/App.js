@@ -10,6 +10,8 @@ const gamePoint = 100;
 
 const diceRoller = () => Math.floor(Math.random() * 6 + 1);
 
+const dices = [1, 2, 3, 4, 5, 6];
+
 const initState = {
   activePlayer: true,
   currentScore: 0,
@@ -101,7 +103,9 @@ function App() {
           currentScore={game.currentScore}
           gamePoint={gamePoint}
         />
-        {game.currentRoll !== 0 && <Dice currentRoll={game.currentRoll} />}
+        {dices.map((dice) => {
+          return <Dice roll={dice} currentRoll={game.currentRoll} />;
+        })}
         <Button text="🔄 New Game" className="btn--new" onClick={newGame} />
         <Button text="🎲 Roll Dice" className="btn--roll" onClick={rollDice} />
         <Button text="📥 Hold" className="btn--hold" onClick={hold} />

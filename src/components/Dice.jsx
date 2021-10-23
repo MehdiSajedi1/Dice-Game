@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Dice = ({ currentRoll }) => {
+const Dice = ({ roll, currentRoll }) => {
   return (
     <img
-      src={`/images/dice-${currentRoll}.png`}
-      className="dice"
+      src={`/images/dice-${roll}.png`}
+      className={`dice ${currentRoll === roll && 'active'} `}
       alt="Playing Dice"
     />
   );
