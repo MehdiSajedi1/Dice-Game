@@ -5,6 +5,7 @@ import Button from './components/Button';
 import Rules from './components/Rules';
 import RulesModal from './components/RulesModal';
 import './App.css';
+import './media.css';
 
 const gamePoint = 100;
 
@@ -86,7 +87,7 @@ function App() {
 
   return (
     <>
-      <main className={showModal ? 'faded' : undefined}>
+      <main className={`main ${showModal} ? 'faded' : ''`}>
         <Player
           playerNum="1"
           score={game.score1}

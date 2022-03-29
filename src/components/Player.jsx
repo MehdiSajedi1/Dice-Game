@@ -9,12 +9,14 @@ const Player = ({
 }) => {
   return (
     <section
-      className={`player ${activePlayer ? 'player--active' : ''} ${
-        score >= gamePoint ? 'player--winner' : ''
-      } `}
+      className={`player player--${playerNum} ${
+        activePlayer ? 'player--active' : ''
+      } ${score >= gamePoint ? 'player--winner' : ''} `}
     >
-      <h2 className="name">Player {playerNum}</h2>
-      <p className="score">{score}</p>
+      <div className="player-score-box">
+        <h2 className="name">Player {playerNum}</h2>
+        <p className="score">{score}</p>
+      </div>
       <div className="current">
         <p className="current-label">Current</p>
         <p className="current-score">{activePlayer ? currentScore : 0}</p>

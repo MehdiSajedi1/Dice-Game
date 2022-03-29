@@ -1,0 +1,84 @@
+@media (max-width: 1100px) {
+  .main {
+    flex-direction: column;
+    height: clamp(1px, 550px, 95vh);
+    width: 90vw;
+  }
+
+  .player {
+    flex-direction: row;
+    padding: 0;
+  }
+
+  .player--1 {
+    align-items: flex-start;
+    padding-top: 3.5rem;
+  }
+
+  .player--2 {
+    align-items: flex-end;
+    padding-bottom: 3.5rem;
+  }
+
+  .player-score-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .name {
+    font-size: 2rem;
+    white-space: nowrap;
+  }
+
+  .score {
+    font-size: 4rem;
+  }
+
+  .current {
+    padding: 1.5rem 3rem;
+  }
+
+  .current-score {
+    font-size: 2.5rem;
+  }
+
+  .btn {
+    padding: 0.6rem 2rem;
+    font-size: 1.5rem;
+    transform: translateX(-50%);
+  }
+
+  .btn:active {
+    transform: translate(-50%, -40%);
+  }
+
+  .btn--new {
+    top: -6rem;
+  }
+
+  .btn--new:active {
+    transform: translate(-50%, 3px);
+  }
+
+  .btn--roll {
+    transform: translate(-50%, -50%);
+    top: 33rem;
+    left: clamp(1px, 110px, 30%);
+  }
+
+  .btn--hold {
+    transform: translate(-50%, -50%);
+    top: 33rem;
+    left: calc(90vw - 85px);
+  }
+
+  .dice {
+    height: 7rem;
+    top: 17.5rem;
+  }
+
+  .rules-container,
+  .rules-modal {
+    display: none;
+  }
+}
