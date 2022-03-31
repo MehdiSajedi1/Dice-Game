@@ -1,4 +1,4 @@
-@media (max-width: 1100px) {
+@media (max-width: 1025px) {
   .main {
     flex-direction: column;
     height: clamp(1px, 550px, 95vh);
@@ -8,6 +8,10 @@
   .player {
     flex-direction: row;
     padding: 0;
+  }
+
+  .player-info {
+    flex-direction: row;
   }
 
   .player--1 {
@@ -26,8 +30,66 @@
   }
 
   .name {
-    font-size: 2rem;
+    font-size: 2.75rem;
     white-space: nowrap;
+  }
+
+  .score {
+    font-size: 6rem;
+  }
+
+  .current {
+    padding: 2rem 4rem;
+  }
+
+  .current-score {
+    font-size: 3rem;
+  }
+
+  .btn {
+    padding: 0.6rem 2rem;
+    font-size: 1.5rem;
+    transform: translateX(-50%);
+  }
+
+  .btn:active {
+    transform: translate(-50%, -40%);
+  }
+
+  .btn--new {
+    top: -7rem;
+  }
+
+  .btn--new:active {
+    transform: translate(-50%, 3px);
+  }
+
+  .btn--roll {
+    transform: translate(-50%, -50%);
+    top: 32rem;
+    left: clamp(1px, 110px, 30%);
+  }
+
+  .btn--hold {
+    transform: translate(-50%, -50%);
+    top: 32rem;
+    left: calc(90vw - 85px);
+  }
+
+  .dice {
+    height: 7rem;
+    top: 17.5rem;
+  }
+
+  .rules-container,
+  .rules-modal {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .name {
+    font-size: 2rem;
   }
 
   .score {
@@ -44,41 +106,9 @@
 
   .btn {
     padding: 0.6rem 2rem;
-    font-size: 1.5rem;
-    transform: translateX(-50%);
-  }
-
-  .btn:active {
-    transform: translate(-50%, -40%);
   }
 
   .btn--new {
     top: -6rem;
-  }
-
-  .btn--new:active {
-    transform: translate(-50%, 3px);
-  }
-
-  .btn--roll {
-    transform: translate(-50%, -50%);
-    top: 33rem;
-    left: clamp(1px, 110px, 30%);
-  }
-
-  .btn--hold {
-    transform: translate(-50%, -50%);
-    top: 33rem;
-    left: calc(90vw - 85px);
-  }
-
-  .dice {
-    height: 7rem;
-    top: 17.5rem;
-  }
-
-  .rules-container,
-  .rules-modal {
-    display: none;
   }
 }
