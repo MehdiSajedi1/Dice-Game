@@ -1,6 +1,12 @@
 {
-  "name": "dice-game-react",
+  "name": "dice-game",
+  "description": "Dice game built with React",
   "version": "0.1.0",
+  "author": "Mehdi Sajedi <mehdiisajedi@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mehdi-sajedi/dice-game"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.13.0",

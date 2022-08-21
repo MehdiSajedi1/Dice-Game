@@ -2,4 +2,4 @@
 
 ![Design preview for Dice Game](./preview.png)
 
-Live Demo: https://dicegame-react.netlify.app/
+Demo: https://dice-game-v2.netlify.app
